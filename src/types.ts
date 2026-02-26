@@ -21,6 +21,7 @@ export interface DealInput {
   min_order_value: number;
   max_redemptions: number;
   exclusive_flag: boolean;
+  bank_partner?: string;
 }
 
 export interface CopyVariant {

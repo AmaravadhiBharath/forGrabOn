@@ -53,13 +53,15 @@ function channelCopy(channel, variant, deal) {
     const minOrder = minOrderPhrase(deal);
     const exclusivity = exclusivityPhrase(deal);
     const baseBrand = deal.merchant_id;
+    const partner = deal.bank_partner ? ` with ${deal.bank_partner}` : "";
+    const brandWithPartner = deal.bank_partner ? `${baseBrand} x ${deal.bank_partner}` : baseBrand;
     switch (channel) {
         case "email": {
-            const subjectUrgency = `${discount} on ${baseBrand} ends ${expiry}`;
-            const subjectValue = `Save big at ${baseBrand}: ${discount}`;
+            const subjectUrgency = `${discount} on ${baseBrand}${partner} ends ${expiry}`;
+            const subjectValue = `Save big at ${baseBrand}${partner}: ${discount}`;
             const subjectSocial = `${baseBrand} deal loved by thousands`;
-            const bodyUrgency = `${discount} on ${deal.category} at ${baseBrand} ${minOrder ? minOrder + " " : ""}- hurry, offer valid ${expiry}. ${exclusivity}.`;
-            const bodyValue = `Grab ${discount} on your next ${deal.category} order at ${baseBrand} ${minOrder ? minOrder + " " : ""}and save more on every purchase. ${exclusivity}.`;
+            const bodyUrgency = `${discount} on ${deal.category} at ${baseBrand}${partner} ${minOrder ? minOrder + " " : ""}- hurry, offer valid ${expiry}. ${exclusivity}.`;
+            const bodyValue = `Grab ${discount} on your next ${deal.category} order at ${baseBrand}${partner} ${minOrder ? minOrder + " " : ""}and save more on every purchase. ${exclusivity}.`;
             const bodySocial = `Shoppers are flocking to ${baseBrand} for this ${discount} ${deal.category} offer ${minOrder ? minOrder + " " : ""}- join them before it ends ${expiry}. ${exclusivity}.`;
             const ctaUrgency = "Claim your deal now";
             const ctaValue = "Apply savings at checkout";
@@ -75,27 +77,27 @@ function channelCopy(channel, variant, deal) {
         case "whatsapp": {
             // Max 160 characters, aim for concise lines
             if (variant === "urgency") {
-                return `${discount} at ${baseBrand} on ${deal.category} ${minOrder ? "(" + minOrder + ") " : ""}- ends ${expiry}. ${exclusivity}. Tap to use now.`;
+                return `${discount} at ${brandWithPartner} on ${deal.category} ${minOrder ? "(" + minOrder + ") " : ""}- ends ${expiry}. ${exclusivity}. Tap to use now.`;
             }
             if (variant === "value") {
-                return `Save ${discount} at ${baseBrand} on your next ${deal.category} order ${minOrder ? "(" + minOrder + ") " : ""}- grab the value deal via GrabOn.`;
+                return `Save ${discount} at ${brandWithPartner} on your next ${deal.category} order ${minOrder ? "(" + minOrder + ") " : ""}- grab the value deal via GrabOn.`;
             }
-            return `People love this ${discount} ${deal.category} offer from ${baseBrand} ${minOrder ? "(" + minOrder + ") " : ""}- redeem via GrabOn before it’s gone.`;
+            return `People love this ${discount} ${deal.category} offer from ${brandWithPartner} ${minOrder ? "(" + minOrder + ") " : ""}- redeem via GrabOn before it’s gone.`;
         }
         case "push": {
             // Max 50 char title + 100 char body
             if (variant === "urgency") {
                 const title = `${discount} ends soon`;
-                const body = `${baseBrand} ${deal.category} deal ${minOrder ? "on " + minOrder + " " : ""}- valid ${expiry}. ${exclusivity}.`;
+                const body = `${brandWithPartner} ${deal.category} deal ${minOrder ? "on " + minOrder + " " : ""}- valid ${expiry}. ${exclusivity}.`;
                 return `Title: ${title}\nBody: ${body}`;
             }
             if (variant === "value") {
                 const title = `Save ${discount} today`;
-                const body = `Unlock extra savings on ${deal.category} at ${baseBrand} ${minOrder ? "with " + minOrder : ""}. ${exclusivity}.`;
+                const body = `Unlock extra savings on ${deal.category} at ${brandWithPartner} ${minOrder ? "with " + minOrder : ""}. ${exclusivity}.`;
                 return `Title: ${title}\nBody: ${body}`;
             }
             const title = `Top-rated ${deal.category} deal`;
-            const body = `Thousands are grabbing ${discount} at ${baseBrand} ${minOrder ? "on " + minOrder + " " : ""}- don’t miss out. ${exclusivity}.`;
+            const body = `Thousands are grabbing ${discount} at ${brandWithPartner} ${minOrder ? "on " + minOrder + " " : ""}- don’t miss out. ${exclusivity}.`;
             return `Title: ${title}\nBody: ${body}`;
         }
         case "glance": {
@@ -111,21 +113,21 @@ function channelCopy(channel, variant, deal) {
         case "payu": {
             // Max 40 chars, action-oriented
             if (variant === "urgency") {
-                return `Apply ${discount} now – ends soon`;
+                return `Apply ${discount} via ${deal.bank_partner || 'Card'} – ends soon`;
             }
             if (variant === "value") {
-                return `Save ${discount} on this payment`;
+                return `Save ${discount} with ${deal.bank_partner || 'Card'}`;
             }
-            return `Most-used offer – grab your savings`;
+            return `Partner Offer: ${deal.bank_partner || 'Bank'} Special`;
         }
         case "instagram": {
             if (variant === "urgency") {
-                return `${discount} on ${deal.category} at ${baseBrand} – last days only ⚡️ ${minOrder ? "Min order ₹" + deal.min_order_value + ". " : ""}${exclusivity}. #GrabOn #Sale #LimitedTime`;
+                return `${discount} on ${deal.category} at ${brandWithPartner} – last days only ⚡️ ${minOrder ? "Min order ₹" + deal.min_order_value + ". " : ""}${exclusivity}. #GrabOn #Sale #LimitedTime`;
             }
             if (variant === "value") {
-                return `Why pay full price? Get ${discount} at ${baseBrand} on your next ${deal.category} order ${minOrder ? "(min ₹" + deal.min_order_value + ")" : ""}. Save smart with GrabOn. #Deals #Savings #GrabOn`;
+                return `Why pay full price? Get ${discount} at ${brandWithPartner} on your next ${deal.category} order ${minOrder ? "(min ₹" + deal.min_order_value + ")" : ""}. Save smart with GrabOn. #Deals #Savings #GrabOn`;
             }
-            return `Everyone’s talking about this ${discount} ${deal.category} deal from ${baseBrand}. Join thousands saving more with GrabOn today. ${minOrder ? "Min ₹" + deal.min_order_value + ". " : ""}#Trending #SmartShopping`;
+            return `Everyone’s talking about this ${discount} ${deal.category} deal from ${brandWithPartner}. Join thousands saving more with GrabOn today. ${minOrder ? "Min ₹" + deal.min_order_value + ". " : ""}#Trending #SmartShopping`;
         }
     }
 }

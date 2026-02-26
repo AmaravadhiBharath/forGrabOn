@@ -42,6 +42,10 @@ const dealShape = {
     .optional()
     .default(false)
     .describe("Is this GrabOn exclusive? Default: false."),
+  bank_partner: z
+    .string()
+    .optional()
+    .describe("OPTIONAL: Banking/Payment partner (e.g. HDFC, ICICI, Cred)."),
 };
 
 server.tool(
@@ -55,14 +59,18 @@ server.tool(
     const deal: DealInput = args as DealInput;
 
     async function generateVariants(lang: "en" | "hi" | "te", dealJson: string, baseVariants?: CopyVariant[]): Promise<CopyVariant[]> {
+      const dealData: DealInput = JSON.parse(dealJson);
+      const partnerContext = dealData.bank_partner ? ` (Partnered with ${dealData.bank_partner})` : "";
+
       // AI Path: Real generation via Claude
       if (!isMockMode) {
         const anthropic = new Anthropic({ apiKey });
         const prompt = lang === "en"
-          ? `Generate 18 GrabOn marketing variants (6 channels x 3 types: urgency, value, social_proof) for this deal: ${dealJson}. 
+          ? `Generate 18 GrabOn marketing variants (6 channels x 3 types: urgency, value, social_proof) for this deal: ${dealJson}${partnerContext}. 
+             If a bank_partner is mentioned, ensure PayU and WhatsApp variants highlight the bank offer.
              Output ONLY a JSON array.`
           : `Translate/Adapt these 18 variants into ${lang === 'hi' ? 'Hindi' : 'Telugu'}. Source: ${JSON.stringify(baseVariants)}. 
-             Output ONLY a JSON array.`;
+             Ensure regional script for bank names if appropriate. Output ONLY a JSON array.`;
 
         const response = await anthropic.messages.create({
           model: "claude-3-haiku-20240307",
