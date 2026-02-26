@@ -1,4 +1,4 @@
-# Project 06: Multi-Channel Deal Distribution
+# Project 06: Multi-Channel Deal Distribution [Submission Ready]
 ## GrabOn Vibe Coder Challenge 2024-2025
 
 | Category | Information |
