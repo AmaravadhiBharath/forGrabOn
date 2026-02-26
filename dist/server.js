@@ -19,10 +19,10 @@ const server = new mcp_js_1.McpServer({
 const dealShape = {
     merchant_id: zod_1.z.string().describe("Merchant name (REQUIRED). e.g. Zomato"),
     category: zod_1.z.string().describe("Market category (REQUIRED). e.g. food"),
-    discount_value: zod_1.z.number().describe("The number for the discount (REQUIRED). e.g. 10 or 500"),
     discount_type: zod_1.z
         .enum(["percentage", "flat"])
-        .describe("REQUIRED: Select 'percentage' for % deals OR 'flat' for ₹ amount deals. NEVER use both."),
+        .describe("REQUIRED FIRST: Is this a 'percentage' (%) OR 'flat' (₹) discount? NEVER both."),
+    discount_value: zod_1.z.number().describe("REQUIRED SECOND: The numeric value (e.g. 10 for percentage or 500 for flat)."),
     expiry_timestamp: zod_1.z
         .string()
         .optional()
@@ -44,7 +44,7 @@ const dealShape = {
         .default(false)
         .describe("OPTIONAL: Is this GrabOn exclusive? Silent default: false."),
 };
-server.tool("distribute_deal", "Enterprise Deal Distribution Rail. A deal must be either a 'percentage' (%) OR a 'flat' (₹) discount — never both. Only Merchant, Category, Value, and Type are required. Use silent defaults for all other fields.", dealShape, async (args) => {
+server.tool("distribute_deal", "Enterprise Deal Distribution Rail. Mandatory flow: 1. Confirm Merchant/Category 2. Confirm Type (Percentage vs Flat) 3. Get the Value. Never assume type if not specified. Use silent defaults for all optional fields.", dealShape, async (args) => {
     const apiKey = process.env.ANTHROPIC_API_KEY;
     if (!apiKey) {
         return {

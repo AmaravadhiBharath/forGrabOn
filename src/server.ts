@@ -18,10 +18,10 @@ const server = new McpServer({
 const dealShape = {
   merchant_id: z.string().describe("Merchant name (REQUIRED). e.g. Zomato"),
   category: z.string().describe("Market category (REQUIRED). e.g. food"),
-  discount_value: z.number().describe("The number for the discount (REQUIRED). e.g. 10 or 500"),
   discount_type: z
     .enum(["percentage", "flat"])
-    .describe("REQUIRED: Select 'percentage' for % deals OR 'flat' for ₹ amount deals. NEVER use both."),
+    .describe("REQUIRED FIRST: Is this a 'percentage' (%) OR 'flat' (₹) discount? NEVER both."),
+  discount_value: z.number().describe("REQUIRED SECOND: The numeric value (e.g. 10 for percentage or 500 for flat)."),
   expiry_timestamp: z
     .string()
     .optional()
@@ -46,7 +46,7 @@ const dealShape = {
 
 server.tool(
   "distribute_deal",
-  "Enterprise Deal Distribution Rail. A deal must be either a 'percentage' (%) OR a 'flat' (₹) discount — never both. Only Merchant, Category, Value, and Type are required. Use silent defaults for all other fields.",
+  "Enterprise Deal Distribution Rail. Mandatory flow: 1. Confirm Merchant/Category 2. Confirm Type (Percentage vs Flat) 3. Get the Value. Never assume type if not specified. Use silent defaults for all optional fields.",
   dealShape,
   async (args) => {
     const apiKey = process.env.ANTHROPIC_API_KEY;
