@@ -77,10 +77,10 @@ server.tool("distribute_deal", "Generates localized copy variants and simulates 
            Source: ${JSON.stringify(baseVariants)}.
            Output ONLY a JSON array with language "${lang}".`;
         const response = await anthropic.messages.create({
-            model: "claude-3-5-haiku-latest",
+            model: "claude-3-haiku-20240307",
             max_tokens: 4000,
             temperature: 0,
-            system: "You are a GrabOn marketing and localization expert. You only output valid JSON arrays. Never include preamble or conversational text.",
+            system: "You are a GrabOn marketing and localization expert. Output valid JSON arrays only.",
             messages: [{ role: "user", content: prompt }],
         });
         const text = response.content[0].text;
