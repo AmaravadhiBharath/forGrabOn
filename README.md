@@ -70,22 +70,15 @@ node setup-mcp.js
       }
     }
   }
-}
 ```
 
----
-
-### 🔍 Direct Testing & Debugging (MCP Inspector)
-Want to verify the raw JSON output or test the server without launching Claude Desktop? Use the official MCP Inspector:
-
-1. **Run the Inspector**:
-   ```bash
-   npx @modelcontextprotocol/inspector node dist/server.js
-   ```
-2. **Open the browser**: Navigate to the URL shown (usually `http://localhost:5173`).
-3. **Run Tool**: Select `distribute_deal`, fill in the merchant/category, and click **Run Tool**. You will see the full 54-variant JSON payload instantly.
-
----
+#### 4. Immediate Verification (No Claude Required)
+If you want to see the 54-variant JSON output instantly without launching Claude Desktop:
+```bash
+npx @modelcontextprotocol/inspector node dist/server.js
+```
+1. Open the URL shown in your browser (usually `http://localhost:5173`).
+2. Select `distribute_deal`, fill in the merchant/category, and click **Run Tool**.
 
 ---
 
