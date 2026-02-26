@@ -48,7 +48,8 @@ function getDeliveryAttempt(channel: Channel): { status: DeliveryStatus; error?:
 
 export async function simulateDelivery(
   deal: DealInput,
-  variants: CopyVariant[]
+  variants: CopyVariant[],
+  generationMethod: "Claude AI (Dynamic)" | "Native Engine (Deterministic Simulation)"
 ): Promise<DistributeDealResult> {
   const startTime = Date.now();
   const logs: DeliveryLogEntry[] = [];
@@ -140,6 +141,7 @@ export async function simulateDelivery(
     channelSummary: Object.values(summaryByChannel),
     processingTimeMs: ms,
     deliveryDuration: `${(ms / 1000).toFixed(1)} sec`,
+    generationMethod,
   };
 }
 

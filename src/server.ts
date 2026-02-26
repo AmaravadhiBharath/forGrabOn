@@ -102,7 +102,8 @@ server.tool(
       ]);
 
       const allVariants = [...enVariants, ...hiVariants, ...teVariants];
-      const simulated: DistributeDealResult = await simulateDelivery(deal, allVariants);
+      const method = isMockMode ? "Native Engine (Deterministic Simulation)" : "Claude AI (Dynamic)";
+      const simulated: DistributeDealResult = await simulateDelivery(deal, allVariants, method);
 
       if (isMockMode) {
         (simulated as any)._system_note = "⚡️ RUNNING IN SIMULATION MODE: No valid ANTHROPIC_API_KEY detected. To unlock the full Generative AI path (dynamic translation/adaptation via Claude-3), please add your sk- key to the .env file.";

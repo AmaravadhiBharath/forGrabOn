@@ -88,7 +88,8 @@ server.tool("distribute_deal", "Enterprise Deal Distribution Rail. Generates 54 
             generateVariants("te", dealJson, enVariants)
         ]);
         const allVariants = [...enVariants, ...hiVariants, ...teVariants];
-        const simulated = await (0, webhookSimulator_1.simulateDelivery)(deal, allVariants);
+        const method = isMockMode ? "Native Engine (Deterministic Simulation)" : "Claude AI (Dynamic)";
+        const simulated = await (0, webhookSimulator_1.simulateDelivery)(deal, allVariants, method);
         if (isMockMode) {
             simulated._system_note = "⚡️ RUNNING IN SIMULATION MODE: No valid ANTHROPIC_API_KEY detected. To unlock the full Generative AI path (dynamic translation/adaptation via Claude-3), please add your sk- key to the .env file.";
         }

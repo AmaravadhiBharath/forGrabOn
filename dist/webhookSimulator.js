@@ -34,7 +34,7 @@ function getDeliveryAttempt(channel) {
         error: errors[Math.floor(Math.random() * errors.length)]
     };
 }
-async function simulateDelivery(deal, variants) {
+async function simulateDelivery(deal, variants, generationMethod) {
     const startTime = Date.now();
     const logs = [];
     // Helper for simulated network latency
@@ -115,6 +115,7 @@ async function simulateDelivery(deal, variants) {
         channelSummary: Object.values(summaryByChannel),
         processingTimeMs: ms,
         deliveryDuration: `${(ms / 1000).toFixed(1)} sec`,
+        generationMethod,
     };
 }
 //# sourceMappingURL=webhookSimulator.js.map
