@@ -17,10 +17,7 @@ const server = new McpServer({
 // It ensures every deal has valid data before reaching our distribution channels.
 const dealShape = {
   merchant_id: z.string().describe("Brand or merchant name, e.g. Zomato, Myntra"),
-  category: z
-    .string()
-    .default("general")
-    .describe("Deal category, e.g. food, fashion, travel, electronics"),
+  category: z.string().describe("Deal category, e.g. food, fashion, travel, electronics"),
   discount_value: z.number().describe("Numeric discount value, e.g. 40, 50, 1500"),
   discount_type: z
     .enum(["percentage", "flat"])
