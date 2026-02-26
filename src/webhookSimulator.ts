@@ -8,27 +8,53 @@ import {
   DealInput,
 } from "./types";
 
+const MOCK_ENDPOINTS: Record<Channel, string> = {
+  email: "https://api.sendgrid.com/v3/mail/send",
+  whatsapp: "https://graph.facebook.com/v17.0/whatsapp_business_account/messages",
+  push: "https://fcm.googleapis.com/fcm/send",
+  glance: "https://api.glance.inmobi.com/v1/content/push",
+  payu: "https://api.payu.in/merchant/post-banner",
+  instagram: "https://graph.facebook.com/v17.0/instagram_messaging",
+};
+
 const BASE_SUCCESS_RATE: Record<Channel, number> = {
-  email: 1.0,
-  whatsapp: 1.0,
-  push: 0.8,
-  glance: 0.85,
+  email: 0.98, // Very reliable
+  whatsapp: 0.95,
+  push: 0.75, // Simulated mobile connectivity issues
+  glance: 0.7, // High-traffic lockscreen volatility
   payu: 0.9,
-  instagram: 0.95,
+  instagram: 0.85,
 };
 
 const MAX_RETRIES = 2;
 
-function randomStatus(channel: Channel): DeliveryStatus {
+function getDeliveryAttempt(channel: Channel): { status: DeliveryStatus; error?: string | undefined } {
   const p = BASE_SUCCESS_RATE[channel];
-  return Math.random() <= p ? "delivered" : "failed";
+  const success = Math.random() <= p;
+
+  if (success) return { status: "delivered" };
+
+  const errors = [
+    `Timeout connecting to ${MOCK_ENDPOINTS[channel]}`,
+    "Rate limit exceeded (429)",
+    "Upstream provider 503 error",
+    "Network congestion",
+  ];
+  return {
+    status: "failed",
+    error: errors[Math.floor(Math.random() * errors.length)]
+  };
 }
 
-export function simulateDelivery(
+export async function simulateDelivery(
   deal: DealInput,
   variants: CopyVariant[]
-): DistributeDealResult {
+): Promise<DistributeDealResult> {
+  const startTime = Date.now();
   const logs: DeliveryLogEntry[] = [];
+
+  // Helper for simulated network latency
+  const sleep = (ms: number) => new Promise(res => setTimeout(res, ms));
 
   for (const v of variants) {
     let finalStatus: DeliveryStatus = "pending";
@@ -36,7 +62,11 @@ export function simulateDelivery(
 
     while (attempt <= MAX_RETRIES && finalStatus !== "delivered") {
       attempt += 1;
-      const status = randomStatus(v.channel);
+
+      // Simulate real-world network latency (10-40ms per attempt)
+      await sleep(Math.floor(Math.random() * 30) + 10);
+
+      const { status, error } = getDeliveryAttempt(v.channel);
       finalStatus = status;
 
       const entry: DeliveryLogEntry = {
@@ -47,9 +77,7 @@ export function simulateDelivery(
         attempt,
         status,
         timestamp: new Date().toISOString(),
-        error: status === "failed"
-          ? "Simulated channel delivery failure"
-          : undefined,
+        error: error || undefined,
       };
       logs.push(entry);
     }
@@ -104,11 +132,14 @@ export function simulateDelivery(
       : 0;
   }
 
+  const ms = Date.now() - startTime;
   return {
     deal,
     variants,
     deliveryLogs: logs,
     channelSummary: Object.values(summaryByChannel),
+    processingTimeMs: ms,
+    deliveryDuration: `${(ms / 1000).toFixed(1)} sec`,
   };
 }
 

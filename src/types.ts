@@ -56,5 +56,7 @@ export interface DistributeDealResult {
   variants: CopyVariant[];
   deliveryLogs: DeliveryLogEntry[];
   channelSummary: ChannelSuccessSummary[];
+  processingTimeMs?: number;
+  deliveryDuration?: string;
 }
 
