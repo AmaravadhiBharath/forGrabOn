@@ -19,6 +19,7 @@
 | **Native Localization (Hi/Te)** | ✅ | Culturally adapted copy (not literal) in native scripts. |
 | **Webhook Retry Logic** | ✅ | 3-attempt failover loop with per-channel reliability profiles. |
 | **3+ Merchant Demo** | ✅ | Validated with Zomato, Myntra, Swiggy, and Amazon. |
+| **Co-Branded Offer Support**| ✅ | Optional Banking Partner integration (e.g., HDFC/ICICI) for PayU. |
 
 ---
 
@@ -109,10 +110,10 @@ The core achievement of this project is the **"1-to-Many" distribution rail**. W
 
 The architecture is designed to support a hands-free marketing workflow. While the current demo uses Claude Desktop, the engine is fully compatible with **n8n** to enable a "Mobile-to-Market" pipeline:
 
-1.  **Trigger:** Brand Manager sends a deal description via **Slack** or **WhatsApp**.
-2.  **Orchestration:** n8n catches the webhook → passes the text to an LLM node (Claude) → Claude uses this **MCP Server** as a tool.
-3.  **Execution:** The MCP server generates the 54 variants and simulates the distribution blast via webhooks.
-4.  **Confirmation:** n8n sends a summary report back to the Slack/WhatsApp thread.
+1.  **Trigger:** Brand Manager sends a deal description via **Slack** or **WhatsApp** (e.g., *"Myntra 40% off fashion, with HDFC Banking"*).
+2.  **Orchestration:** n8n catches the webhook → passes the text to an LLM node (Claude) → Claude uses this **MCP Server** as a tool, intelligently detecting the merchant, category, and optional **Bank Partner**.
+3.  **Execution:** The MCP server generates the 54 variants (co-branded for PayU/Instagram) and simulates the distribution blast via webhooks.
+4.  **Confirmation:** n8n sends a summary report back to the Slack/WhatsApp thread, confirming that the co-branded campaign is live.
 
 > *"It's Saturday. The brand manager is home. He types a single sentence into Slack, and 54 channel-ready, translated variants are live in seconds. No laptop required."*
 
