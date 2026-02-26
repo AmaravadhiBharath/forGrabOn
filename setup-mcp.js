@@ -69,6 +69,14 @@ function setup() {
         console.log(`📍 Updated: ${configPath}`);
         console.log('\n🔄 Please RESTART Claude Desktop to activate the tool.');
 
+        // Final Touch: Open .env automatically for the user
+        const { exec } = require('child_process');
+        const envPath = path.resolve(__dirname, '.env');
+        const openCmd = platform === 'win32' ? `start "" "${envPath}"` : `open "${envPath}"`;
+
+        console.log('\n📂 Opening .env file for you to paste your key...');
+        exec(openCmd);
+
     } catch (err) {
         console.error('❌ Error writing configuration:', err.message);
     }
