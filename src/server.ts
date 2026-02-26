@@ -8,7 +8,9 @@ import { generateEnglishVariants } from "./copyGenerator";
 import { expandWithLocalizations } from "./localization";
 import type { CopyVariant, DealInput, DistributeDealResult } from "./types";
 
-dotenv.config();
+import path from "path";
+
+dotenv.config({ path: path.join(__dirname, '../.env') });
 
 const server = new McpServer({
   name: "grabon-distribution-mcp",

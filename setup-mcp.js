@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
+try { require('dotenv').config(); } catch (e) { }
 
 function getClaudeConfigPath() {
     const platform = os.platform();

@@ -72,6 +72,7 @@ node setup-mcp.js
       }
     }
   }
+}
 ```
 
 #### 4. Immediate Verification (No Claude Required)

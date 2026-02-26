@@ -11,7 +11,8 @@ const sdk_1 = __importDefault(require("@anthropic-ai/sdk"));
 const webhookSimulator_1 = require("./webhookSimulator");
 const copyGenerator_1 = require("./copyGenerator");
 const localization_1 = require("./localization");
-dotenv_1.default.config();
+const path_1 = __importDefault(require("path"));
+dotenv_1.default.config({ path: path_1.default.join(__dirname, '../.env') });
 const server = new mcp_js_1.McpServer({
     name: "grabon-distribution-mcp",
     version: "1.0.1",
