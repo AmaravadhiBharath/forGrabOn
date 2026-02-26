@@ -13,6 +13,8 @@ const server = new McpServer({
   version: "1.0.0",
 });
 
+// THE SAFETY GUARD: This Zod schema acts as our strict "Data Contract."
+// It ensures every deal has valid data before reaching our distribution channels.
 const dealShape = {
   merchant_id: z.string().describe("Brand or merchant name, e.g. Zomato, Myntra"),
   category: z
