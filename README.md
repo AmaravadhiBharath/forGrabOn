@@ -3,8 +3,8 @@
 
 | Category | Information |
 | :--- | :--- |
-| **Candidate** | [PASTE YOUR NAME HERE] |
-| **Email** | [PASTE YOUR EMAIL HERE] |
+| **Candidate** | Bharath Amaravadhi |
+| **Email** | amaravadhibharath@gmail.com |
 | **Project Vertical** | GrabOn Core Infrastructure |
 | **Difficulty** | Hard |
 
