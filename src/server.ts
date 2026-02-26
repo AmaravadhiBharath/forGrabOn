@@ -16,33 +16,37 @@ const server = new McpServer({
 // THE SAFETY GUARD: This Zod schema acts as our strict "Data Contract."
 // It ensures every deal has valid data before reaching our distribution channels.
 const dealShape = {
-  merchant_id: z.string().describe("Brand or merchant name, e.g. Zomato, Myntra"),
-  category: z.string().describe("Deal category, e.g. food, fashion, travel, electronics"),
-  discount_value: z.number().describe("Numeric discount value, e.g. 40, 50, 1500"),
+  merchant_id: z.string().describe("Merchant name (REQUIRED). e.g. Zomato"),
+  category: z.string().describe("Market category (REQUIRED). e.g. food"),
+  discount_value: z.number().describe("Numeric value only (REQUIRED). e.g. 40 or 500"),
   discount_type: z
     .enum(["percentage", "flat"])
-    .describe("Whether discount_value is percentage or flat rupee amount"),
+    .describe("Type: 'percentage' for % or 'flat' for ₹. (REQUIRED)"),
   expiry_timestamp: z
     .string()
+    .optional()
     .default(new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString())
-    .describe("ISO timestamp for when the deal expires (default: 7 days from now)"),
+    .describe("Expiration date. OPTIONAL: Use default if missing."),
   min_order_value: z
     .number()
+    .optional()
     .default(0)
-    .describe("Minimum order value required to apply the deal (default: 0)"),
+    .describe("Minimum order. OPTIONAL: Use 0 if missing."),
   max_redemptions: z
     .number()
+    .optional()
     .default(1000)
-    .describe("Maximum number of times this deal can be redeemed (default: 1000)"),
+    .describe("Total uses. OPTIONAL: Use 1000 if missing."),
   exclusive_flag: z
     .boolean()
+    .optional()
     .default(false)
-    .describe("True if the deal is exclusive to GrabOn (default: false)"),
+    .describe("GrabOn Exclusive? OPTIONAL: Use false if missing."),
 };
 
 server.tool(
   "distribute_deal",
-  "Generates localized copy variants and simulates across all GrabOn channels.",
+  "Enterprise Deal Distribution Rail. IMPORTANT: If any REQUIRED field is missing, ask the user. For all OPTIONAL fields, use defaults silently. NEVER ask for optional fields unless the user brings them up.",
   dealShape,
   async (args) => {
     const apiKey = process.env.ANTHROPIC_API_KEY;
