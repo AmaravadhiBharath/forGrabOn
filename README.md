@@ -26,10 +26,16 @@
 
 #### 1. Setup
 ```bash
-# Clone and install
+# 1. Clone the repository
+git clone https://github.com/AmaravadhiBharath/forGrabOn.git
+
+# 2. Enter the directory
+cd forGrabOn
+
+# 3. Install dependencies
 npm install
 
-# Build the project
+# 4. Build the project
 npm run build
 ```
 
