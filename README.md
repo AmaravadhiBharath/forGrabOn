@@ -70,7 +70,11 @@ Paste the following into your `claude_desktop_config.json`:
 - **Multi-Stage Translation Rail**: To ensure reliability for 54 strings, the server generates English variants first, then adapts them into Hindi and Telugu in parallel.
 - **Psychological Pillars**: Copy is generated based on Urgency, Value, and Social Proof triggers to ensure effective A/B testing.
 - **Resilient Webhook Simulation**: Built a `webhookSimulator` that mimics enterprise APIs with artificial latency and probabilistic failures to demonstrate a retry architecture.
-- **Future Improvements**: With more time, I would add a local SQLite database for persistent logging and expand localization to more regional languages.
+### 🔮 What I would do differently with more time
+
+- **Persistent Campaign Logging**: Implementing a local SQLite database to store distribution history so that marketing managers can perform long-term trend analysis.
+- **Deeper Localization**: Expanding the translation rail to include more regional Indian languages like Tamil, Kannada, and Marathi to cover 100% of the Indian demographic.
+- **Visual Asset Generation**: Integrating with a creative API to generate actual image banners for the PayU and Instagram channels based on the localized marketing copy.
 
 ---
 
