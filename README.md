@@ -54,7 +54,7 @@ Run this command in your terminal. It will automatically detect your path and up
 ```bash
 node setup-mcp.js
 ```
-*(This will update your config **and** automatically open the `.env` file for you to paste your key.)*
+*(This will update your config and automatically open the `.env` file for you. Just paste your key, save, and restart Claude.)*
 
 **Option B (Manual - Windows/Mac):**
 1. Open Claude Desktop.
