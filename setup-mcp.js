@@ -72,7 +72,8 @@ function setup() {
         // Final Touch: Open .env automatically for the user
         const { exec } = require('child_process');
         const envPath = path.resolve(__dirname, '.env');
-        const openCmd = platform === 'win32' ? `start "" "${envPath}"` : `open "${envPath}"`;
+        const currentPlatform = os.platform();
+        const openCmd = currentPlatform === 'win32' ? `start "" "${envPath}"` : `open "${envPath}"`;
 
         console.log('\x1b[36m%s\x1b[0m', '\n📂 Opening .env file for you to paste your key...');
         exec(openCmd);
