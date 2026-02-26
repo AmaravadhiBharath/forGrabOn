@@ -46,7 +46,13 @@ ANTHROPIC_API_KEY=your_sk_key_here
 ```
 
 #### 3. Connect to Claude Desktop
-Paste the following into your `claude_desktop_config.json`:
+**Option A (Easiest):**
+1. Open Claude Desktop.
+2. Go to **Settings > Developer**.
+3. Click **Edit Config**. This will open your configuration file automatically.
+
+**Option B (Manual):**
+Paste the following into your `claude_desktop_config.json` manually:
 *(Run `pwd` in the project folder to get your absolute path)*
 
 ```json
