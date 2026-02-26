@@ -70,14 +70,18 @@ Paste the following into your `claude_desktop_config.json`:
 - **Multi-Stage Translation Rail**: To ensure reliability for 54 strings, the server generates English variants first, then adapts them into Hindi and Telugu in parallel.
 - **Psychological Pillars**: Copy is generated based on Urgency, Value, and Social Proof triggers to ensure effective A/B testing.
 - **Resilient Webhook Simulation**: Built a `webhookSimulator` that mimics enterprise APIs with artificial latency and probabilistic failures to demonstrate a retry architecture.
-### 🔮 What I would do differently with more time
+### �️ Live Demo & Submission Notes
+**Note on Videos:** Due to the 5-minute limit on Loom, this demonstration is split into **3 Parts** covering Architecture, Setup, and Live Demos.
 
-- **Persistent Campaign Logging**: Implementing a local SQLite database to store distribution history so that marketing managers can perform long-term trend analysis.
-- **Deeper Localization**: Expanding the translation rail to include more regional Indian languages like Tamil, Kannada, and Marathi to cover 100% of the Indian demographic.
-- **Visual Asset Generation**: Integrating with a creative API to generate actual image banners for the PayU and Instagram channels based on the localized marketing copy.
+**Security First:** The `.env` file is included in `.gitignore` to prevent API key exposure. To run this project, simply add your own `ANTHROPIC_API_KEY` to the local `.env` file or directly in the Claude Desktop configuration as shown above.
 
 ---
 
-### 🎥 Live Demo
-Connect the MCP to Claude Desktop and ask: *"Distribute a Zomato deal: 50% off."*
-The system will generate **54 localized variants** and show the simulated **Delivery Logs** and **Success Rates**.
+### �🔮 The "1-to-Many" Vision
+The core achievement of this project is the **"1-to-Many" distribution rail**. Without MCP, a marketing manager would have to manually write, translate, and verify 54 different variants (6 channels x 3 strategies x 3 languages) for every single deal. By connecting Claude directly to this infrastructure via MCP, we turn one simple sentence into a massive, culturally-aware marketing blast in seconds.
+
+**In conclusion:** I have delivered a scalable, culturally-aware, and resilient distribution infrastructure. This isn't just a chatbot interface; it’s a high-scale Distribution Engine that demonstrates why the Model Context Protocol is the future of enterprise marketing. 
+
+*With more time, I would expand this into a persistent kampaign database and integrated visual asset generation for all channels.*
+
+**Thank you for viewing my submission for the GrabOn Vibe Coder Challenge. I look forward to your feedback!**
