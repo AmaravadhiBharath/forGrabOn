@@ -46,14 +46,18 @@ ANTHROPIC_API_KEY=your_sk_key_here
 ```
 
 #### 3. Connect to Claude Desktop
-**Option A (Easiest):**
+
+**Option A (Recommended - Auto Setup):**
+Run this command in your terminal. It will automatically detect your path and update your Claude config.
+```bash
+node setup-mcp.js
+```
+
+**Option B (Manual - Windows/Mac):**
 1. Open Claude Desktop.
 2. Go to **Settings > Developer**.
-3. Click **Edit Config**. This will open your configuration file automatically.
-
-**Option B (Manual):**
-Paste the following into your `claude_desktop_config.json` manually:
-*(Run `pwd` in the project folder to get your absolute path)*
+3. Click **Edit Config**.
+4. Paste the following (Replace `PASTE_YOUR_PATH_HERE` with your absolute folder path):
 
 ```json
 {
