@@ -84,10 +84,10 @@ server.tool(
            Output ONLY a JSON array with language "${lang}".`;
 
       const response = await anthropic.messages.create({
-        model: "claude-3-haiku-20240307",
-        max_tokens: 3000,
+        model: "claude-3-5-haiku-latest",
+        max_tokens: 4000,
         temperature: 0,
-        system: "You are a GrabOn marketing and localization expert. You only output valid JSON arrays. Never include prose or markdown.",
+        system: "You are a GrabOn marketing and localization expert. You only output valid JSON arrays. Never include preamble or conversational text.",
         messages: [{ role: "user", content: prompt }],
       });
 
@@ -95,9 +95,10 @@ server.tool(
       try {
         const start = text.indexOf("[");
         const end = text.lastIndexOf("]");
+        if (start === -1 || end === -1) throw new Error("No JSON array found in response");
         return JSON.parse(text.slice(start, end + 1));
       } catch (e) {
-        throw new Error(`Failed to parse ${lang} variants: ${text}`);
+        throw new Error(`Failed to parse ${lang} variants. Text begins with: ${text.substring(0, 50)}... Error: ${e instanceof Error ? e.message : String(e)}`);
       }
     }
 

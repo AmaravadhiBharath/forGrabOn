@@ -14,6 +14,8 @@ const server = new mcp_js_1.McpServer({
     name: "grabon-distribution-mcp",
     version: "1.0.0",
 });
+// THE SAFETY GUARD: This Zod schema acts as our strict "Data Contract."
+// It ensures every deal has valid data before reaching our distribution channels.
 const dealShape = {
     merchant_id: zod_1.z.string().describe("Brand or merchant name, e.g. Zomato, Myntra"),
     category: zod_1.z
@@ -75,20 +77,22 @@ server.tool("distribute_deal", "Generates localized copy variants and simulates 
            Source: ${JSON.stringify(baseVariants)}.
            Output ONLY a JSON array with language "${lang}".`;
         const response = await anthropic.messages.create({
-            model: "claude-3-haiku-20240307",
-            max_tokens: 3000,
+            model: "claude-3-5-haiku-latest",
+            max_tokens: 4000,
             temperature: 0,
-            system: "You are a GrabOn marketing and localization expert. You only output valid JSON arrays. Never include prose or markdown.",
+            system: "You are a GrabOn marketing and localization expert. You only output valid JSON arrays. Never include preamble or conversational text.",
             messages: [{ role: "user", content: prompt }],
         });
         const text = response.content[0].text;
         try {
             const start = text.indexOf("[");
             const end = text.lastIndexOf("]");
+            if (start === -1 || end === -1)
+                throw new Error("No JSON array found in response");
             return JSON.parse(text.slice(start, end + 1));
         }
         catch (e) {
-            throw new Error(`Failed to parse ${lang} variants: ${text}`);
+            throw new Error(`Failed to parse ${lang} variants. Text begins with: ${text.substring(0, 50)}... Error: ${e instanceof Error ? e.message : String(e)}`);
         }
     }
     try {
