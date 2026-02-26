@@ -19,32 +19,32 @@ const server = new mcp_js_1.McpServer({
 const dealShape = {
     merchant_id: zod_1.z.string().describe("Merchant name (REQUIRED). e.g. Zomato"),
     category: zod_1.z.string().describe("Market category (REQUIRED). e.g. food"),
-    discount_value: zod_1.z.number().describe("Numeric value only (REQUIRED). e.g. 40 or 500"),
+    discount_value: zod_1.z.number().describe("The number for the discount (REQUIRED). e.g. 10 or 500"),
     discount_type: zod_1.z
         .enum(["percentage", "flat"])
-        .describe("Type: 'percentage' for % or 'flat' for ₹. (REQUIRED)"),
+        .describe("REQUIRED: Select 'percentage' for % deals OR 'flat' for ₹ amount deals. NEVER use both."),
     expiry_timestamp: zod_1.z
         .string()
         .optional()
         .default(new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString())
-        .describe("Expiration date. OPTIONAL: Use default if missing."),
+        .describe("OPTIONAL: Expiry date. Silent default: 7 days."),
     min_order_value: zod_1.z
         .number()
         .optional()
         .default(0)
-        .describe("Minimum order. OPTIONAL: Use 0 if missing."),
+        .describe("OPTIONAL: Minimum order value (e.g. 299). Silent default: 0."),
     max_redemptions: zod_1.z
         .number()
         .optional()
         .default(1000)
-        .describe("Total uses. OPTIONAL: Use 1000 if missing."),
+        .describe("OPTIONAL: Redemptions limit. Silent default: 1000."),
     exclusive_flag: zod_1.z
         .boolean()
         .optional()
         .default(false)
-        .describe("GrabOn Exclusive? OPTIONAL: Use false if missing."),
+        .describe("OPTIONAL: Is this GrabOn exclusive? Silent default: false."),
 };
-server.tool("distribute_deal", "Enterprise Deal Distribution Rail. IMPORTANT: If any REQUIRED field is missing, ask the user. For all OPTIONAL fields, use defaults silently. NEVER ask for optional fields unless the user brings them up.", dealShape, async (args) => {
+server.tool("distribute_deal", "Enterprise Deal Distribution Rail. A deal must be either a 'percentage' (%) OR a 'flat' (₹) discount — never both. Only Merchant, Category, Value, and Type are required. Use silent defaults for all other fields.", dealShape, async (args) => {
     const apiKey = process.env.ANTHROPIC_API_KEY;
     if (!apiKey) {
         return {
