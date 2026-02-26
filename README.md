@@ -94,7 +94,8 @@ npx @modelcontextprotocol/inspector node dist/server.js
 ### ⚡️ Live Demo & Submission Notes
 **Note on Videos:** Due to the 5-minute limit on Loom, this demonstration is split into **3 Parts** covering Architecture, Setup, and Live Demos.
 
-**Security First:** The `.env` file is included in the repository as a **template only**. When adding your real key locally, please ensure you do not commit your specific changes back to GitHub to prevent API key exposure.
+> [!WARNING]
+> **Security First:** The `.env` file is included in the repository as a **template only**. When adding your real key locally, please ensure you do not commit your specific changes back to GitHub to prevent API key exposure.
 **⚡️ Developer Simulation Mode:** To make evaluation seamless, I have built a **Simulation Fallback**. If you do not have an `ANTHROPIC_API_KEY` ready, the server automatically switches to a deterministic rule-based engine. 
 
 *(**Recommendation for Evaluators**: While Simulation Mode demonstrates the architecture perfectly, I recommend adding a real API key to the `.env` file to experience the **full generative power** and dynamic localization nuances of Claude-3 integrated within this MCP.)*

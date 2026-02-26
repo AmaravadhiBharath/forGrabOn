@@ -65,20 +65,20 @@ function setup() {
         // Write back
         fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
 
-        console.log('✅ Configuration successful!');
+        console.log('\x1b[32m%s\x1b[0m', '✅ Configuration successful!');
         console.log(`📍 Updated: ${configPath}`);
-        console.log('\n🔄 Please RESTART Claude Desktop to activate the tool.');
+        console.log('\x1b[33m%s\x1b[0m', '\n🔄 Please RESTART Claude Desktop to activate the tool.');
 
         // Final Touch: Open .env automatically for the user
         const { exec } = require('child_process');
         const envPath = path.resolve(__dirname, '.env');
         const openCmd = platform === 'win32' ? `start "" "${envPath}"` : `open "${envPath}"`;
 
-        console.log('\n📂 Opening .env file for you to paste your key...');
+        console.log('\x1b[36m%s\x1b[0m', '\n📂 Opening .env file for you to paste your key...');
         exec(openCmd);
 
     } catch (err) {
-        console.error('❌ Error writing configuration:', err.message);
+        console.error('\x1b[31m%s\x1b[0m', '❌ Error writing configuration:', err.message);
     }
 }
 
