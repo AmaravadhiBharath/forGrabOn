@@ -164,6 +164,7 @@ The architecture is designed to support a hands-free marketing workflow. While t
 
 - **Full n8n Orchestration** — Implementing a "Mobile-to-Market" flow where a Brand Manager can type *anything* (raw text) into Slack or WhatsApp on a weekend, and n8n + MCP handles the extraction, translation, and distribution automatically.
 - **Deep Bank Partner Integration** — Expanding the input schema to natively support **Branded Cards of Partner Banks** (e.g., "HDFC Millennia" or "Axis GrabOn Card"), automatically generating strategy-specific co-branded copy for payment gateways.
+- **Proactive Inventory Monitoring & Smart Alerts** — Implementing an autonomous "Scout" in n8n that polls merchant APIs (Amazon/Myntra) every 15 minutes and proactively alerts the Brand Manager via Slack/WhatsApp if external stock is depleted, enabling one-tap campaign termination.
 - **Persistent Campaign Database** — Store every generated variant with timestamps, so teams can audit past campaigns and A/B test results over time.
 - **Visual Asset Generation** — Auto-generate channel-sized banners (Instagram square, WhatsApp thumbnail, etc.) to accompany every copy variant.
 - **Live Channel Push** — Replace the webhook simulator with real API calls to Firebase Push, WhatsApp Business Cloud, and Meta Ads.
