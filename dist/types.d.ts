@@ -44,6 +44,8 @@ export interface DistributeDealResult {
     channelSummary: ChannelSuccessSummary[];
     processingTimeMs?: number;
     deliveryDuration?: string;
+    generationDuration?: string;
+    totalDuration?: string;
     generationMethod?: "Claude AI (Dynamic)" | "Native Engine (Deterministic Simulation)";
 }
 //# sourceMappingURL=types.d.ts.map

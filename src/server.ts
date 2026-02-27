@@ -101,8 +101,10 @@ server.tool(
 
     try {
       const dealJson = JSON.stringify(deal);
+      const totalStartTime = Date.now();
 
       // Step 1: English (18)
+      const genStartTime = Date.now();
       const enVariants = await generateVariants("en", dealJson);
 
       // Step 2 & 3: Localization (Combined 36)
@@ -110,10 +112,17 @@ server.tool(
         generateVariants("hi", dealJson, enVariants),
         generateVariants("te", dealJson, enVariants)
       ]);
+      const generationMs = Date.now() - genStartTime;
 
       const allVariants = [...enVariants, ...hiVariants, ...teVariants];
       const method = isMockMode ? "Native Engine (Deterministic Simulation)" : "Claude AI (Dynamic)";
       const simulated: DistributeDealResult = await simulateDelivery(deal, allVariants, method);
+
+      const totalMs = Date.now() - totalStartTime;
+
+      // Add timing breakdown to the result
+      simulated.generationDuration = `${(generationMs / 1000).toFixed(2)} sec`;
+      simulated.totalDuration = `${(totalMs / 1000).toFixed(2)} sec`;
 
       if (isMockMode) {
         (simulated as any)._system_note = "⚡️ RUNNING IN SIMULATION MODE: No valid ANTHROPIC_API_KEY detected. To unlock the full Generative AI path (dynamic translation/adaptation via Claude-3), please add your sk- key to the .env file.";
