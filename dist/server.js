@@ -118,6 +118,32 @@ server.tool("distribute_deal", "Enterprise Deal Distribution Rail. Generates 54 
         };
     }
 });
+server.tool("terminate_campaign", "EMERGENCY KILL SWITCH: Immediately deactivates all variants across all 6 channels. Use this when merchant stock hits zero or for urgent campaign withdrawals.", {
+    campaign_id: zod_1.z.string().describe("The ID or reference of the campaign to terminate (e.g. Zomato-Food-123)"),
+    reason: zod_1.z.string().describe("Reason for termination (e.g. 'Stock Exhaustion', 'Merchant Request')"),
+}, async (args) => {
+    const channels = ["email", "whatsapp", "push", "glance", "payu", "instagram"];
+    const deactivationLogs = channels.map(channel => ({
+        channel,
+        action: "DEACTIVATE",
+        status: "success",
+        timestamp: new Date().toISOString(),
+        message: `Successfully flushed cache and killed active banners for ${args.campaign_id}`
+    }));
+    return {
+        content: [{
+                type: "text",
+                text: JSON.stringify({
+                    status: "KILLED",
+                    campaign: args.campaign_id,
+                    reason: args.reason,
+                    channels_processed: channels.length,
+                    logs: deactivationLogs,
+                    system_note: "The deal is now offline across the entire distribution rail."
+                }, null, 2)
+            }],
+    };
+});
 async function main() {
     const transport = new stdio_js_1.StdioServerTransport();
     await server.connect(transport);

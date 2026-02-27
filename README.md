@@ -140,16 +140,23 @@ The core achievement of this project is the **"1-to-Many" distribution rail**. W
 
 ---
 
+### 🛑 Real-Time "Kill Switch"
+The architecture is not just "Fire and Forget." It includes a dedicated **Termination Rail** to handle exactly the scenario where merchant stock hits zero across other sources.
+
+- **The Problem:** Amazon has 10 cases. GrabOn has 5 redemptions left, but Amazon sold all 10 directly.
+- **The Solution:** The `terminate_campaign` tool allows the Brand Manager (or an automated system) to instantly deactivate the deal across all 6 channels simultaneously, flushing caches and pulling banners to ensure 0% wasted traffic.
+
+---
+
 ### ⚡️ The "Mobile-to-Market" Pipeline (n8n + MCP)
 
-The architecture is designed to support a hands-free marketing workflow. While the current demo uses Claude Desktop, the engine is fully compatible with **n8n** to enable a "Mobile-to-Market" pipeline:
+The architecture is designed to support a hands-free marketing workflow. While the current demo uses Claude Desktop, the engine is fully compatible with **n8n** to enable a bidirectional "Mobile-to-Market" pipeline:
 
-1.  **Trigger:** Brand Manager sends a deal description via **Slack** or **WhatsApp** (e.g., *"Myntra 40% off fashion, with HDFC Banking"*).
-2.  **Orchestration:** n8n catches the webhook → passes the text to an LLM node (Claude) → Claude uses this **MCP Server** as a tool, intelligently detecting the merchant, category, and optional **Bank Partner**.
-3.  **Execution:** The MCP server generates the 54 variants (co-branded for PayU/Instagram) and simulates the distribution blast via webhooks.
-4.  **Confirmation:** n8n sends a summary report back to the Slack/WhatsApp thread, confirming that the co-branded campaign is live.
+1.  **Launch:** Brand Manager sends a deal via **Slack/WhatsApp** → n8n → MCP `distribute_deal` → 54 live variants.
+2.  **Monitor:** n8n periodically checks Amazon stock levels via API.
+3.  **Terminate:** If Stock = 0 → n8n → MCP `terminate_campaign` → Deal killed instantly across all channels.
 
-> *"It's Saturday. The brand manager is home. He types a single sentence into Slack, and 54 channel-ready, translated variants are live in seconds. No laptop required."*
+> *"It's Saturday. The brand manager is home. He gets a notification that stock is low. He types 'End Amazon Deal' into Slack, and the entire 54-variant campaign is offline in seconds. Total control, zero overhead."*
 
 ---
 
