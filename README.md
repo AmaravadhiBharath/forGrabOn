@@ -41,7 +41,7 @@ npm run build
 ```
 
 #### 2. Configure Environment
-Open the `.env` file in the root directory and paste your API key:
+The `.env` file will **automatically pop up** when you run the setup script in Step 3. Alternatively, you can open it manually in the root directory:
 ```bash
 ANTHROPIC_API_KEY=your_sk_key_here
 ```
